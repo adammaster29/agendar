@@ -64,7 +64,7 @@ const Home = ({ actualizar, agregar, eliminar, usuarioSeleccionado, setUsuarioSe
                         <p>D. Antonio</p>
                     </div>
                     <div onClick={() => change(7)} className="card__hijo">
-                        <img src="/img/doctor-seis.webp" alt="Doctor Patricia" />
+                        <img src="/img/doctor-seis.png" alt="Doctor Patricia" />
                         <p>D. Patricia</p>
                     </div>
                 </div>
@@ -74,8 +74,8 @@ const Home = ({ actualizar, agregar, eliminar, usuarioSeleccionado, setUsuarioSe
                 <div className="option">
                     <div className="contenedor__doctores-formulario">
                         <div className="doctores">
-                            <img className='doctor-agenda' src={`/img/doctor-${doctor === 2 ? 'uno' : doctor === 3 ? 'dos' : doctor === 4 ? 'tres' : doctor === 5 ? 'cuatro' : doctor === 6 ? 'cinco' : 'seis'}.png`} alt={`Doctor ${doctor === 2 ? 'Erick' : doctor === 3 ? 'Paola' : doctor === 4 ? 'Adams' : doctor === 5 ? 'Rafael' : doctor === 6 ? 'Antonio' : 'Patricia'}`} />
-                            <p>{doctor === 2 ? 'Erick Martinez' : doctor === 3 ? 'Paola Jimenez' : doctor === 4 ? 'Adam Agudelo' : doctor === 5 ? 'Rafael Perez' : doctor === 6 ? 'Antonio Mercado' : 'Patricia Teran'}</p>
+                           <div className='contenedor__name-doctores'> <img className='doctor-agenda' src={`/img/doctor-${doctor === 2 ? 'uno' : doctor === 3 ? 'dos' : doctor === 4 ? 'tres' : doctor === 5 ? 'cuatro' : doctor === 6 ? 'cinco' : 'seis'}.png`} alt={`Doctor ${doctor === 2 ? 'Erick' : doctor === 3 ? 'Paola' : doctor === 4 ? 'Adams' : doctor === 5 ? 'Rafael' : doctor === 6 ? 'Antonio' : 'Patricia'}`} />
+                           <p>{doctor === 2 ? 'Erick Martinez' : doctor === 3 ? 'Paola Jimenez' : doctor === 4 ? 'Adam Agudelo' : doctor === 5 ? 'Rafael Perez' : doctor === 6 ? 'Antonio Mercado' : 'Patricia Teran'}</p></div>
 
                             <div onClick={formularioPaciente} className="uiverse">
                                 <span className="tooltip">Citas</span>
