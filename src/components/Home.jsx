@@ -1,10 +1,29 @@
 import React, { useEffect, useState } from 'react';
+import ReactPaginate from 'react-paginate';
 import { useForm } from "react-hook-form";
+
+const itemsPerPage = 4;
 
 const Home = ({ actualizar, agregar, eliminar, usuarioSeleccionado, setUsuarioSeleccionado, usuarios }) => {
     const [doctor, setDoctor] = useState(1);
     const [formulario, setFormulario] = useState(false);
     const { register, handleSubmit, reset, setValue } = useForm();
+    // pagination *******************************************************************************
+    const [currentItems, setCurrentItems] = useState([]);
+    const [pageCount, setPageCount] = useState(0);
+    const [itemOffset, setItemOffset] = useState(0);
+
+    useEffect(() => {
+        // Calcular los items a mostrar en la página actual
+        const endOffset = itemOffset + itemsPerPage;
+        setCurrentItems(usuarios.slice(itemOffset, endOffset));
+        setPageCount(Math.ceil(usuarios.length / itemsPerPage));
+    }, [itemOffset, usuarios]);
+
+    const handlePageClick = (event) => {
+        const newOffset = (event.selected * itemsPerPage) % usuarios.length;
+        setItemOffset(newOffset);
+    };
 
     // Cambio de opción
     const change = (option) => {
@@ -74,8 +93,10 @@ const Home = ({ actualizar, agregar, eliminar, usuarioSeleccionado, setUsuarioSe
                 <div className="option">
                     <div className="contenedor__doctores-formulario">
                         <div className="doctores">
-                           <div className='contenedor__name-doctores'> <img className='doctor-agenda' src={`/img/doctor-${doctor === 2 ? 'uno' : doctor === 3 ? 'dos' : doctor === 4 ? 'tres' : doctor === 5 ? 'cuatro' : doctor === 6 ? 'cinco' : 'seis'}.png`} alt={`Doctor ${doctor === 2 ? 'Erick' : doctor === 3 ? 'Paola' : doctor === 4 ? 'Adams' : doctor === 5 ? 'Rafael' : doctor === 6 ? 'Antonio' : 'Patricia'}`} />
-                           <p>{doctor === 2 ? 'Erick Martinez' : doctor === 3 ? 'Paola Jimenez' : doctor === 4 ? 'Adam Agudelo' : doctor === 5 ? 'Rafael Perez' : doctor === 6 ? 'Antonio Mercado' : 'Patricia Teran'}</p></div>
+                            <div className='contenedor__name-doctores'>
+                                <img className='doctor-agenda' src={`/img/doctor-${doctor === 2 ? 'uno' : doctor === 3 ? 'dos' : doctor === 4 ? 'tres' : doctor === 5 ? 'cuatro' : doctor === 6 ? 'cinco' : 'seis'}.png`} alt={`Doctor ${doctor === 2 ? 'Erick' : doctor === 3 ? 'Paola' : doctor === 4 ? 'Adams' : doctor === 5 ? 'Rafael' : doctor === 6 ? 'Antonio' : 'Patricia'}`} />
+                                <p>{doctor === 2 ? 'Erick Martinez' : doctor === 3 ? 'Paola Jimenez' : doctor === 4 ? 'Adam Agudelo' : doctor === 5 ? 'Rafael Perez' : doctor === 6 ? 'Antonio Mercado' : 'Patricia Teran'}</p>
+                            </div>
 
                             <div onClick={formularioPaciente} className="uiverse">
                                 <span className="tooltip">Citas</span>
@@ -107,34 +128,68 @@ const Home = ({ actualizar, agregar, eliminar, usuarioSeleccionado, setUsuarioSe
                         )}
                     </div>
                     <div className="tabla">
-                        <table>
-                            <thead>
-                                <tr>
-                                    <th>#</th>
-                                    <th>Documento</th>
-                                    <th>Nombre</th>
-                                    <th>Fecha</th>
-                                    <th>----</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                {usuarios.map((user, index) => (
-                                    <tr key={user.id}>
-                                        <td>{index + 1}</td>
-                                        <td>{user.id}</td>
-                                        <td>{user.nombre}</td>
-                                        <td>{user.fecha}</td>
-                                        <td className='contenedorBtn' >
-                                            <button className='delete' onClick={() => { eliminar(user.id) }}>Eliminar</button>
-                                            <button className='edite' onClick={() => { setUsuarioSeleccionado(user), formularioPaciente() }}>Editar</button>
-                                        </td>
-                                    </tr>
-                                ))}
-                            </tbody>
-                        </table>
+                    <table>
+          <thead>
+            <tr>
+              <th>#</th>
+              <th>Documento</th>
+              <th>Nombre</th>
+              <th>Fecha</th>
+              <th>----</th>
+            </tr>
+          </thead>
+          <tbody>
+            {currentItems && currentItems.map((user, index) => (
+              <tr key={user.id}>
+                <td>{index + 1}</td>
+                <td>{user.id}</td>
+                <td>{user.nombre}</td>
+                <td>{user.fecha}</td>
+                <td className='contenedorBtn'>
+                  <button className='delete' onClick={() => { eliminar(user.id) }}>Eliminar</button>
+                  <button className='edite' onClick={() => { setUsuarioSeleccionado(user), formularioPaciente() }}>Editar</button>
+                </td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
+                        {/* Componente de paginación */}
+                        <ReactPaginate
+          breakLabel="..."
+          nextLabel="next >"
+          onPageChange={handlePageClick}
+          pageRangeDisplayed={0}  // Mostrar solo un número de página
+          marginPagesDisplayed={0}  // Mostrar solo un número de página en los márgenes
+          pageCount={pageCount}
+          previousLabel="< previous"
+          renderOnZeroPageCount={null}
+          containerClassName={"pagination"}
+          pageClassName={"page-item"}
+          pageLinkClassName={"page-link"}
+          previousClassName={"page-item"}
+          previousLinkClassName={"page-link"}
+          nextClassName={"page-item"}
+          nextLinkClassName={"page-link"}
+          breakClassName={"page-item"}
+          breakLinkClassName={"page-link"}
+          activeClassName={"selected"}
+          disabledClassName={"disabled"}
+        />
                     </div>
                 </div>
             )}
+        </div>
+    );
+};
+
+const Items = ({ currentItems }) => {
+    return (
+        <div>
+            {currentItems && currentItems.map((item, index) => (
+                <div key={index}>
+                    {item}
+                </div>
+            ))}
         </div>
     );
 };

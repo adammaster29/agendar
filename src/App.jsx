@@ -11,7 +11,9 @@ function App() {
   const doctorUser = [
     { id: 10025645874, nombre: "adam agudelo", fecha: "14/05/2024" },
     { id: 245874, nombre: "teresa cordoba", fecha: "10/07/2024" },
-    { id: 1010245155, nombre: "paola jimenez", fecha: "12/08/2024" }
+    { id: 1010245155, nombre: "andres prasca", fecha: "12/08/2024" },
+    { id: 8785414, nombre: "carlos cordoba", fecha: "10/07/2024" },
+    { id: 878475, nombre: "jose agudelo", fecha: "12/08/2024" }
   ];
 
   useEffect(() => {
